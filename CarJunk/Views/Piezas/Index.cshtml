@@ -1,0 +1,106 @@
+﻿@model List<CarJunk.Models.AutoPiezas>
+@{
+    ViewData["Title"] = "Venta por Piezas";
+    ViewData["Active"] = "piezas";
+}
+
+<!-- HEADER -->
+<div class="page-hero">
+    <div class="page-hero-content">
+        <div class="section-eyebrow">Categoría 02</div>
+        <h1 class="page-hero-title">Venta por Piezas</h1>
+        <p class="page-hero-sub">Refacciones y partes originales con inventario en tiempo real</p>
+    </div>
+</div>
+
+<!-- RESULTADOS -->
+<div class="catalogo-section">
+    <div class="catalogo-header">
+        <span class="catalogo-count">
+            @Model.Count vehículo@(Model.Count != 1 ? "s" : "") con piezas disponibles
+        </span>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="empty-state">
+            <i class="fas fa-cogs"></i>
+            <p>No hay vehículos con piezas disponibles actualmente</p>
+        </div>
+    }
+    else
+    {
+        <div class="piezas-grid-full">
+            @foreach (var auto in Model)
+            {
+                int completitud = auto.Piezas.Count == 0 ? 0 :
+                    (int)(auto.Piezas.Count(p => p.Stock > 0) / (double)auto.Piezas.Count * 100);
+
+                string colorComp = completitud == 100 ? "#2a7a4b" :
+                                   completitud >= 70 ? "#d4820a" : "#c0392b";
+
+                <div class="pieza-auto-card">
+                    <div class="pieza-auto-header">
+                        <div class="pieza-auto-meta">
+                            <div>
+                                <div class="pieza-auto-name">@auto.Marca @auto.Modelo</div>
+                                <div class="pieza-auto-year">@auto.Year · @auto.Color</div>
+                            </div>
+                            <span style="font-family:'DM Mono',monospace;font-size:14px;font-weight:500;color:@colorComp">
+                                @completitud%
+                            </span>
+                        </div>
+                        <div class="completitud-bar-wrap">
+                            <div class="completitud-label">
+                                <span>Completitud del vehículo</span>
+                                <span>@(completitud == 100 ? "Completo" : "Parcial")</span>
+                            </div>
+                            <div class="completitud-bar">
+                                <div class="completitud-fill"
+                                     style="width:@(completitud)%;background:linear-gradient(90deg,@(colorComp)aa,@colorComp)">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pieza-lista">
+                        @foreach (var pieza in auto.Piezas.Where(p => p.Stock > 0).Take(5))
+                        {
+                            <div class="pieza-item">
+                                <div class="pieza-item-left">
+                                    <div class="pieza-dot"></div>
+                                    <span class="pieza-nombre">@pieza.Nombre</span>
+                                </div>
+                                <span class="pieza-stock">×@pieza.Stock en stock</span>
+                            </div>
+                        }
+                        @{
+                            int disponibles = auto.Piezas.Count(p => p.Stock > 0);
+                        }
+                        @if (disponibles > 5)
+                        {
+                            <div class="pieza-more">+@(disponibles - 5) piezas más disponibles</div>
+                        }
+                    </div>
+
+                    <div class="pieza-card-footer">
+                        <div class="pieza-card-stats">
+                            <span class="pieza-stat">
+                                <i class="fas fa-check-circle" style="color:var(--green)"></i>
+                                @disponibles disponibles
+                            </span>
+                            <span class="pieza-stat">
+                                <i class="fas fa-box" style="color:var(--gray-400)"></i>
+                                @auto.Piezas.Count total
+                            </span>
+                        </div>
+                        <a asp-controller="Piezas" asp-action="Detalle" asp-route-id="@auto.Id"
+                           class="ver-piezas-btn" style="margin:0;width:auto;padding:10px 20px;">
+                            <i class="fas fa-list"></i> Ver inventario completo
+                        </a>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>

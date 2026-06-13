@@ -1,0 +1,85 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] — CarJunk</title>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+    <nav class="navbar">
+        <a asp-controller="Home" asp-action="Index" class="nav-brand">
+            <i class="fas fa-car-side"></i>
+            <div class="nav-brand-text">
+                <strong>CarJunk</strong>
+                <span>Gestión y Venta de Autos</span>
+            </div>
+        </a>
+        <div class="nav-links">
+            <a asp-controller="Home" asp-action="Index"
+               class="@(ViewData["Active"]?.ToString() == "home" ? "active" : "")">
+                <i class="fas fa-home"></i> Inicio
+            </a>
+            <a asp-controller="Autos" asp-action="Index"
+               class="@(ViewData["Active"]?.ToString() == "autos" ? "active" : "")">
+                Autos Reacondicionados
+            </a>
+            <a asp-controller="Piezas" asp-action="Index"
+               class="@(ViewData["Active"]?.ToString() == "piezas" ? "active" : "")">
+                Venta por Piezas
+            </a>
+            <a href="#contacto">Contacto</a>
+            <a asp-area="" asp-controller="Admin" asp-action="Index" class="nav-admin">
+                <i class="fas fa-lock"></i> Acceso Admin
+            </a>
+        </div>
+    </nav>
+
+    <main>
+        @RenderBody()
+    </main>
+
+    <footer class="site-footer" id="contacto">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <div class="footer-brand-name">
+                    <i class="fas fa-car-side"></i>
+                    <strong>CarJunk</strong>
+                </div>
+                <p>Tu mejor opción en autos reacondicionados y piezas de calidad.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Navegación</h4>
+                <ul>
+                    <li><a asp-controller="Home" asp-action="Index">Inicio</a></li>
+                    <li><a asp-controller="Autos" asp-action="Index">Autos Reacondicionados</a></li>
+                    <li><a asp-controller="Piezas" asp-action="Index">Venta por Piezas</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Contacto</h4>
+                <div class="footer-contact-item">
+                    <i class="fas fa-phone"></i><span>+52 (55) 1234-5678</span>
+                </div>
+                <div class="footer-contact-item">
+                    <i class="fas fa-envelope"></i><span>ventas@@carjunk.com</span>
+                </div>
+                <div class="footer-contact-item">
+                    <i class="fas fa-clock"></i><span>Lun - Sáb 9:00 - 18:00</span>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>© 2026 CarJunk. Todos los derechos reservados.</span>
+            <a asp-controller="Admin" asp-action="Index" class="footer-admin-link">
+                <i class="fas fa-lock"></i> Acceso Admin
+            </a>
+        </div>
+    </footer>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

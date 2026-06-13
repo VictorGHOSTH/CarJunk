@@ -1,0 +1,136 @@
+﻿@model List<CarJunk.Models.AutoReacondicionado>
+@{
+    ViewData["Title"] = "Autos Reacondicionados";
+    ViewData["Active"] = "autos";
+}
+
+<!-- HEADER -->
+<div class="page-hero">
+    <div class="page-hero-content">
+        <div class="section-eyebrow">Categoría 01</div>
+        <h1 class="page-hero-title">Autos Reacondicionados</h1>
+        <p class="page-hero-sub">Vehículos certificados, revisados y listos para rodar</p>
+    </div>
+</div>
+
+<!-- FILTROS -->
+<div class="filtros-section">
+    <form asp-controller="Autos" asp-action="Index" method="get" class="filtros-grid">
+        <div class="search-field">
+            <label>Marca</label>
+            <select name="marca">
+                <option value="">Todas las Marcas</option>
+                @foreach (var marca in (List<string>)ViewBag.Marcas)
+                {
+                    var selected = Context.Request.Query["marca"] == marca;
+                    <option value="@marca" selected="@selected">@marca</option>
+                }
+            </select>
+        </div>
+        <div class="search-field">
+            <label>Año</label>
+            <select name="year">
+                <option value="">Todos los Años</option>
+                @for (int y = DateTime.Now.Year; y >= 2000; y--)
+                {
+                    if (Context.Request.Query["year"] == y.ToString())
+                    {
+                        <option value="@y" selected>@y</option>
+                    }
+                    else
+                    {
+                        <option value="@y">@y</option>
+                    }
+                }
+            </select>
+        </div>
+        <div class="search-field">
+            <label>Precio mínimo</label>
+            <input type="number" name="min" placeholder="$0"
+                   value="@Context.Request.Query["min"]" />
+        </div>
+        <div class="search-field">
+            <label>Precio máximo</label>
+            <input type="number" name="max" placeholder="Sin límite"
+                   value="@Context.Request.Query["max"]" />
+        </div>
+        <div class="filtros-actions">
+            <button type="submit" class="btn-search">
+                <i class="fas fa-search"></i> Filtrar
+            </button>
+            <a asp-controller="Autos" asp-action="Index" class="btn-reset">
+                <i class="fas fa-times"></i> Limpiar
+            </a>
+        </div>
+    </form>
+</div>
+
+<!-- RESULTADOS -->
+<div class="catalogo-section">
+    <div class="catalogo-header">
+        <span class="catalogo-count">
+            @Model.Count auto@(Model.Count != 1 ? "s" : "") encontrado@(Model.Count != 1 ? "s" : "")
+        </span>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="empty-state">
+            <i class="fas fa-car-side"></i>
+            <p>No se encontraron autos con esos filtros</p>
+            <a asp-controller="Autos" asp-action="Index" class="btn-primary" style="margin-top:16px;display:inline-flex">
+                Ver todos
+            </a>
+        </div>
+    }
+    else
+    {
+        <div class="autos-grid-full">
+            @foreach (var auto in Model)
+            {
+                <div class="auto-card">
+                    <div class="auto-card-img">
+                        @if (!string.IsNullOrEmpty(auto.FotoUrl))
+                        {
+                            <img src="@auto.FotoUrl" alt="@auto.Marca @auto.Modelo" />
+                        }
+                        else
+                        {
+                            <div class="auto-card-img-placeholder">
+                                <i class="fas fa-car-side"></i>
+                            </div>
+                        }
+                        <span class="status-badge status-ready">Listo para Venta</span>
+                    </div>
+                    <div class="auto-card-body">
+                        <div class="auto-card-top">
+                            <div>
+                                <div class="auto-card-name">@auto.Marca @auto.Modelo</div>
+                                <div class="auto-card-year">@auto.Year · @auto.Color</div>
+                            </div>
+                            <div class="auto-card-price">$@auto.Precio.ToString("N0")</div>
+                        </div>
+                        <div class="auto-card-specs">
+                            <div class="auto-spec">
+                                <i class="fas fa-cog"></i> @auto.Motor
+                            </div>
+                            <div class="auto-spec">
+                                <i class="fas fa-chart-line"></i> @auto.Kilometraje.ToString("N0") km
+                            </div>
+                        </div>
+                        <a asp-controller="Autos" asp-action="Detalle" asp-route-id="@auto.Id"
+                           class="btn-detalles">Ver Detalles</a>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+@section Scripts {
+<script>
+    document.querySelectorAll('.section-animate').forEach(el => {
+        el.classList.add('visible');
+    });
+</script>
+}

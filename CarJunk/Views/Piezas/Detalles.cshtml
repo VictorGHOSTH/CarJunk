@@ -1,0 +1,188 @@
+﻿@model CarJunk.ViewModels.PiezasAutoViewModel
+@{
+    ViewData["Title"] = $"{Model.Auto.Marca} {Model.Auto.Modelo} — Piezas";
+    ViewData["Active"] = "piezas";
+
+    int disponibles = Model.Auto.Piezas.Count(p => p.Stock > 0);
+    string colorComp = Model.Completitud == 100 ? "#2a7a4b" :
+                       Model.Completitud >= 70 ? "#d4820a" : "#c0392b";
+
+    var piezasDisp = Model.Auto.Piezas.Where(p => p.Stock > 0).ToList();
+    var piezasAgot = Model.Auto.Piezas.Where(p => p.Stock == 0).ToList();
+}
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb-bar">
+    <a asp-controller="Home" asp-action="Index">Inicio</a>
+    <i class="fas fa-chevron-right"></i>
+    <a asp-controller="Piezas" asp-action="Index">Venta por Piezas</a>
+    <i class="fas fa-chevron-right"></i>
+    <span>@Model.Auto.Marca @Model.Auto.Modelo</span>
+</div>
+
+<!-- WRAPPER -->
+<div class="detalle-wrapper">
+
+    <!-- COLUMNA IZQUIERDA -->
+    <div class="detalle-img-col">
+
+        <!-- IMAGEN -->
+        <div class="detalle-img-box">
+            @if (!string.IsNullOrEmpty(Model.Auto.FotoUrl))
+            {
+                <img src="@Model.Auto.FotoUrl" alt="@Model.Auto.Marca @Model.Auto.Modelo" />
+            }
+            else
+            {
+                <div class="detalle-img-placeholder">
+                    <i class="fas fa-car-side"></i>
+                </div>
+            }
+            <span class="status-badge"
+                  style="position:absolute;top:16px;left:16px;background:@colorComp;color:#fff;">
+                @(Model.Completitud == 100 ? "Completo" : $"{Model.Completitud}% Disponible")
+            </span>
+        </div>
+
+        <!-- COMPLETITUD -->
+        <div class="piezas-completitud-card">
+            <div class="piezas-comp-header">
+                <span class="piezas-comp-label">Completitud del vehículo</span>
+                <span class="piezas-comp-pct" style="color:@colorComp">@Model.Completitud%</span>
+            </div>
+            <div class="completitud-bar" style="height:8px;margin:10px 0;">
+                <div class="completitud-fill"
+                     style="width:@(Model.Completitud)%;background:linear-gradient(90deg,@(colorComp)aa,@colorComp)">
+                </div>
+            </div>
+            <div class="piezas-comp-stats">
+                <div class="piezas-comp-stat">
+                    <span class="pcs-num" style="color:var(--green)">@disponibles</span>
+                    <span class="pcs-lbl">Disponibles</span>
+                </div>
+                <div class="piezas-comp-stat">
+                    <span class="pcs-num" style="color:var(--red)">@(Model.Auto.Piezas.Count - disponibles)</span>
+                    <span class="pcs-lbl">Sin stock</span>
+                </div>
+                <div class="piezas-comp-stat">
+                    <span class="pcs-num">@Model.Auto.Piezas.Count</span>
+                    <span class="pcs-lbl">Total piezas</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- SPECS -->
+        <div class="detalle-specs-grid">
+            <div class="detalle-spec-box">
+                <div class="detalle-spec-icon"><i class="fas fa-calendar"></i></div>
+                <div class="detalle-spec-label">Año</div>
+                <div class="detalle-spec-val">@Model.Auto.Year</div>
+            </div>
+            <div class="detalle-spec-box">
+                <div class="detalle-spec-icon"><i class="fas fa-palette"></i></div>
+                <div class="detalle-spec-label">Color</div>
+                <div class="detalle-spec-val">@Model.Auto.Color</div>
+            </div>
+            <div class="detalle-spec-box">
+                <div class="detalle-spec-icon"><i class="fas fa-tag"></i></div>
+                <div class="detalle-spec-label">Marca</div>
+                <div class="detalle-spec-val">@Model.Auto.Marca</div>
+            </div>
+            <div class="detalle-spec-box">
+                <div class="detalle-spec-icon"><i class="fas fa-car"></i></div>
+                <div class="detalle-spec-label">Modelo</div>
+                <div class="detalle-spec-val">@Model.Auto.Modelo</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- COLUMNA DERECHA -->
+    <div class="detalle-info-col">
+
+        <div class="detalle-badge-row">
+            <span class="detalle-categoria">Venta por Piezas</span>
+            <span class="detalle-fecha">
+                Registrado el @Model.Auto.FechaRegistro.ToString("dd MMM yyyy")
+            </span>
+        </div>
+
+        <h1 class="detalle-titulo">@Model.Auto.Marca @Model.Auto.Modelo</h1>
+        <p class="detalle-year">@Model.Auto.Year</p>
+
+        <!-- INVENTARIO -->
+        <div class="inventario-block">
+            <div class="inventario-title">
+                <i class="fas fa-boxes"></i> Inventario de Piezas
+            </div>
+
+            @if (!Model.Auto.Piezas.Any())
+            {
+                <div class="empty-state" style="padding:30px 0">
+                    <i class="fas fa-box-open"></i>
+                    <p>Sin piezas registradas</p>
+                </div>
+            }
+            else
+            {
+                @if (piezasDisp.Any())
+                {
+                    <div class="inventario-grupo-label">
+                        <i class="fas fa-check-circle" style="color:var(--green)"></i>
+                        Disponibles (@piezasDisp.Count)
+                    </div>
+                    @foreach (var pieza in piezasDisp)
+                    {
+                        <div class="inventario-item inventario-disponible">
+                            <div class="inventario-item-left">
+                                <div class="pieza-dot" style="width:8px;height:8px"></div>
+                                <span class="inventario-nombre">@pieza.Nombre</span>
+                            </div>
+                            <div class="inventario-item-right">
+                                @if (pieza.Precio.HasValue)
+                                {
+                                    <span class="inventario-precio">$@pieza.Precio.Value.ToString("N0")</span>
+                                }
+                                <span class="inventario-stock">×@pieza.Stock</span>
+                            </div>
+                        </div>
+                    }
+                }
+
+                @if (piezasAgot.Any())
+                {
+                    <div class="inventario-grupo-label" style="margin-top:16px">
+                        <i class="fas fa-times-circle" style="color:var(--red)"></i>
+                        Sin stock (@piezasAgot.Count)
+                    </div>
+                    @foreach (var pieza in piezasAgot)
+                    {
+                        <div class="inventario-item inventario-agotado">
+                            <div class="inventario-item-left">
+                                <div class="pieza-dot" style="width:8px;height:8px;background:var(--gray-400)"></div>
+                                <span class="inventario-nombre" style="color:var(--gray-400)">@pieza.Nombre</span>
+                            </div>
+                            <div class="inventario-item-right">
+                                <span class="inventario-agotado-badge">Agotado</span>
+                            </div>
+                        </div>
+                    }
+                }
+            }
+        </div>
+
+        <!-- CTA -->
+        <div class="detalle-cta">
+            <a href="tel:+525512345678" class="btn-primary" style="flex:1;justify-content:center;">
+                <i class="fas fa-phone"></i> Consultar disponibilidad
+            </a>
+            <a href="https://wa.me/525512345678?text=Hola, me interesan piezas del @(Model.Auto.Marca) @(Model.Auto.Modelo) @(Model.Auto.Year)"
+               target="_blank" class="btn-whatsapp">
+                <i class="fab fa-whatsapp"></i> WhatsApp
+            </a>
+        </div>
+
+        <a asp-controller="Piezas" asp-action="Index" class="detalle-volver">
+            <i class="fas fa-arrow-left"></i> Volver al catálogo de piezas
+        </a>
+    </div>
+</div>

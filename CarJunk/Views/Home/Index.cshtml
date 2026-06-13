@@ -1,0 +1,253 @@
+﻿@model CarJunk.ViewModels.HomeViewModel
+@{
+    ViewData["Title"] = "Inicio";
+    ViewData["Active"] = "home";
+}
+
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-grid"></div>
+    <div class="hero-car-fallback"><i class="fas fa-car-side"></i></div>
+    <div class="hero-content">
+        <div class="hero-tag">Calidad Premium · México</div>
+        <h1 class="hero-title">Tu Auto Ideal<br>te Está<br><span>Esperando</span></h1>
+        <p class="hero-subtitle">Autos reacondicionados de calidad premium y piezas originales al mejor precio.</p>
+        <div class="hero-ctas">
+            <a asp-controller="Autos" asp-action="Index" class="btn-primary">
+                <i class="fas fa-car-side"></i> Ver Autos Disponibles
+            </a>
+            <a asp-controller="Piezas" asp-action="Index" class="btn-outline">
+                <i class="fas fa-cogs"></i> Explorar Piezas
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- SEARCH -->
+<div class="search-section">
+    <div class="search-box">
+        <div class="search-label">
+            <i class="fas fa-search"></i> Busca tu Auto Ideal
+        </div>
+        <form asp-controller="Autos" asp-action="Index" method="get" class="search-grid">
+            <div class="search-field">
+                <label>Marca</label>
+                <select name="marca">
+                    <option value="">Todas las Marcas</option>
+                    @foreach (var marca in Model.Marcas)
+                    {
+                        <option value="@marca">@marca</option>
+                    }
+                </select>
+            </div>
+            <div class="search-field">
+                <label>Año</label>
+                <select name="year">
+                    <option value="">Todos los Años</option>
+                    @for (int y = DateTime.Now.Year; y >= 2000; y--)
+                    {
+                        <option value="@y">@y</option>
+                    }
+                </select>
+            </div>
+            <div class="search-field">
+                <label>Precio mínimo</label>
+                <input type="number" name="min" placeholder="$0" />
+            </div>
+            <div class="search-field">
+                <label>Precio máximo</label>
+                <input type="number" name="max" placeholder="Sin límite" />
+            </div>
+            <button type="submit" class="btn-search">
+                <i class="fas fa-search"></i> Buscar Autos
+            </button>
+        </form>
+    </div>
+</div>
+
+<!-- FEATURES -->
+<div class="features section-animate">
+    <div class="feature-card">
+        <div class="feature-icon"><i class="fas fa-star-of-life"></i></div>
+        <h3>Autos Reacondicionados</h3>
+        <p>Vehículos completamente revisados y certificados, listos para rodar.</p>
+    </div>
+    <div class="feature-card">
+        <div class="feature-icon"><i class="fas fa-cogs"></i></div>
+        <h3>Piezas Originales</h3>
+        <p>Amplio catálogo de refacciones y partes en excelente estado.</p>
+    </div>
+    <div class="feature-card">
+        <div class="feature-icon"><i class="fas fa-shield-alt"></i></div>
+        <h3>Garantía de Calidad</h3>
+        <p>Todos nuestros productos cuentan con garantía y respaldo.</p>
+    </div>
+</div>
+
+<!-- AUTOS DESTACADOS -->
+<section class="autos-section section-animate">
+    <div class="section-header">
+        <div class="section-header-left">
+            <div class="section-eyebrow">Categoría 01</div>
+            <div class="section-title">Autos Destacados</div>
+            <div class="section-sub">Vehículos listos para la venta, certificados y garantizados</div>
+        </div>
+        <a asp-controller="Autos" asp-action="Index" class="btn-ver-todos">
+            Ver Todos <i class="fas fa-arrow-right"></i>
+        </a>
+    </div>
+
+    <div class="autos-grid">
+        @if (!Model.AutosDestacados.Any())
+        {
+            <div class="empty-state">
+                <i class="fas fa-car-side"></i>
+                <p>No hay autos disponibles actualmente</p>
+            </div>
+        }
+        else
+        {
+            @foreach (var auto in Model.AutosDestacados.Take(3))
+            {
+                <div class="auto-card">
+                    <div class="auto-card-img">
+                        @if (!string.IsNullOrEmpty(auto.FotoUrl))
+                        {
+                            <img src="@auto.FotoUrl" alt="@auto.Marca @auto.Modelo" />
+                        }
+                        else
+                        {
+                            <div class="auto-card-img-placeholder">
+                                <i class="fas fa-car-side"></i>
+                            </div>
+                        }
+                        <span class="status-badge status-ready">Listo para Venta</span>
+                    </div>
+                    <div class="auto-card-body">
+                        <div class="auto-card-top">
+                            <div>
+                                <div class="auto-card-name">@auto.Marca @auto.Modelo</div>
+                                <div class="auto-card-year">@auto.Year</div>
+                            </div>
+                            <div class="auto-card-price">$@auto.Precio.ToString("N0")</div>
+                        </div>
+                        <div class="auto-card-specs">
+                            <div class="auto-spec">
+                                <i class="fas fa-cog"></i> @auto.Motor
+                            </div>
+                            <div class="auto-spec">
+                                <i class="fas fa-chart-line"></i> @auto.Kilometraje.ToString("N0") km
+                            </div>
+                        </div>
+                        <a asp-controller="Autos" asp-action="Detalle" asp-route-id="@auto.Id"
+                           class="btn-detalles">Ver Detalles</a>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</section>
+
+<!-- PIEZAS DESTACADAS -->
+<section class="piezas-section section-animate">
+    <div class="section-header">
+        <div class="section-header-left">
+            <div class="section-eyebrow">Categoría 02</div>
+            <div class="section-title">Venta por Piezas</div>
+            <div class="section-sub">Autos con piezas disponibles en inventario</div>
+        </div>
+        <a asp-controller="Piezas" asp-action="Index" class="btn-ver-todos">
+            Ver Todos <i class="fas fa-arrow-right"></i>
+        </a>
+    </div>
+
+    <div class="piezas-grid">
+        @if (!Model.AutosPiezas.Any())
+        {
+            <div class="empty-state">
+                <i class="fas fa-cogs"></i>
+                <p>No hay vehículos con piezas disponibles</p>
+            </div>
+        }
+        else
+        {
+            @foreach (var auto in Model.AutosPiezas.Take(3))
+            {
+                int completitud = auto.Piezas.Count == 0 ? 0 :
+                    (int)(auto.Piezas.Count(p => p.Stock > 0) / (double)auto.Piezas.Count * 100);
+
+                string colorComp = completitud == 100 ? "#2a7a4b" :
+                                   completitud >= 70 ? "#d4820a" : "#c0392b";
+
+                <div class="pieza-auto-card">
+                    <div class="pieza-auto-header">
+                        <div class="pieza-auto-meta">
+                            <div>
+                                <div class="pieza-auto-name">@auto.Marca @auto.Modelo</div>
+                                <div class="pieza-auto-year">@auto.Year</div>
+                            </div>
+                            <span style="font-family:'DM Mono',monospace;font-size:13px;font-weight:500;color:@colorComp">
+                                @completitud%
+                            </span>
+                        </div>
+                        <div class="completitud-bar-wrap">
+                            <div class="completitud-label">
+                                <span>Completitud del vehículo</span>
+                                <span>@(completitud == 100 ? "Completo" : "Parcial")</span>
+                            </div>
+                            <div class="completitud-bar">
+                                <div class="completitud-fill"
+                                     style="width:@(completitud)%;background:linear-gradient(90deg,@(colorComp)aa,@colorComp)">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pieza-lista">
+                        @foreach (var pieza in auto.Piezas.Take(4))
+                        {
+                            <div class="pieza-item">
+                                <div class="pieza-item-left">
+                                    <div class="pieza-dot"></div>
+                                    <span class="pieza-nombre">@pieza.Nombre</span>
+                                </div>
+                                <span class="pieza-stock">×@pieza.Stock en stock</span>
+                            </div>
+                        }
+                        @if (auto.Piezas.Count > 4)
+                        {
+                            <div class="pieza-more">+@(auto.Piezas.Count - 4) piezas más</div>
+                        }
+                    </div>
+                    <a asp-controller="Piezas" asp-action="Detalle" asp-route-id="@auto.Id"
+                       class="ver-piezas-btn">
+                        <i class="fas fa-list"></i> Ver todas las piezas disponibles
+                    </a>
+                </div>
+            }
+        }
+    </div>
+</section>
+
+<!-- CTA BANNER -->
+<div class="cta-section section-animate" id="contacto">
+    <div class="cta-banner">
+        <div class="cta-text">
+            <div class="cta-eyebrow">¿Buscas una pieza específica?</div>
+            <div class="cta-title">Contamos con el Inventario que Necesitas</div>
+            <p class="cta-sub">Extenso catálogo de piezas originales de diferentes marcas y modelos.</p>
+        </div>
+        <a asp-controller="Piezas" asp-action="Index" class="cta-btn">
+            <i class="fas fa-cogs"></i> Explorar Catálogo de Piezas
+        </a>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.section-animate').forEach(el => observer.observe(el));
+    </script>
+}
