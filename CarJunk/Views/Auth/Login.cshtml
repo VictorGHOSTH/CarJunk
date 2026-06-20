@@ -1,0 +1,50 @@
+﻿@model CarJunk.ViewModels.LoginViewModel
+@{
+    ViewData["Title"] = "Acceso Admin";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <title>Acceso Admin — CarJunk</title>
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/login.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+</head>
+<body class="login-body">
+    <div class="login-box">
+        <div class="login-brand">
+            <i class="fas fa-car-side"></i>
+            <strong>CarJunk</strong>
+        </div>
+        <p class="login-sub">Acceso al panel administrativo</p>
+
+        <form asp-controller="Auth" asp-action="Login" method="post" class="login-form">
+            <div asp-validation-summary="ModelOnly" class="login-error"></div>
+
+            <div class="login-field">
+                <label>Usuario</label>
+                <input asp-for="NombreUsuario" autocomplete="username" />
+                <span asp-validation-for="NombreUsuario" class="field-error"></span>
+            </div>
+
+            <div class="login-field">
+                <label>Contraseña</label>
+                <input asp-for="Password" type="password" autocomplete="current-password" />
+                <span asp-validation-for="Password" class="field-error"></span>
+            </div>
+
+            <button type="submit" class="btn-login">
+                <i class="fas fa-lock"></i> Iniciar Sesión
+            </button>
+        </form>
+
+        <a asp-controller="Home" asp-action="Index" class="login-volver">
+            <i class="fas fa-arrow-left"></i> Volver al sitio
+        </a>
+    </div>
+</body>
+</html>

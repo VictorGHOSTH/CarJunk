@@ -13,6 +13,7 @@ namespace CarJunk.Data
         public DbSet<Pieza> Piezas { get; set; }
         public DbSet<VentaPieza> VentasPiezas { get; set; }
         public DbSet<Desperdicio> Desperdicios { get; set; }
+        public DbSet<Usuario> Usuarios { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

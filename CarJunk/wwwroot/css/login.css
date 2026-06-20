@@ -1,0 +1,131 @@
+﻿.login-body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--black);
+    padding: 20px;
+}
+
+.login-box {
+    background: var(--white);
+    border-radius: 16px;
+    padding: 48px 40px;
+    width: 100%;
+    max-width: 380px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+}
+
+.login-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 8px;
+}
+
+    .login-brand i {
+        color: var(--accent);
+        font-size: 24px;
+    }
+
+    .login-brand strong {
+        font-family: var(--font-display);
+        font-size: 28px;
+        letter-spacing: 1px;
+    }
+
+.login-sub {
+    text-align: center;
+    font-size: 13px;
+    color: var(--gray-400);
+    margin-bottom: 32px;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.login-field label {
+    display: block;
+    font-size: 12px;
+    color: var(--gray-600);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+}
+
+.login-field input {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid var(--gray-200);
+    border-radius: 8px;
+    font-family: var(--font-body);
+    font-size: 14px;
+    background: var(--gray-100);
+    outline: none;
+    transition: border-color .2s;
+}
+
+    .login-field input:focus {
+        border-color: var(--accent);
+        background: var(--white);
+    }
+
+.field-error {
+    color: var(--red);
+    font-size: 12px;
+    margin-top: 4px;
+    display: block;
+}
+
+.login-error {
+    color: var(--red);
+    font-size: 13px;
+    text-align: center;
+}
+
+    .login-error:empty {
+        display: none;
+    }
+
+.btn-login {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: var(--black);
+    color: var(--white);
+    border: none;
+    border-radius: 8px;
+    padding: 13px;
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all .2s;
+    margin-top: 8px;
+}
+
+    .btn-login:hover {
+        background: var(--accent);
+        color: var(--black);
+    }
+
+.login-volver {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 24px;
+    font-size: 13px;
+    color: var(--gray-400);
+    text-decoration: none;
+    transition: color .2s;
+}
+
+    .login-volver:hover {
+        color: var(--black);
+    }
