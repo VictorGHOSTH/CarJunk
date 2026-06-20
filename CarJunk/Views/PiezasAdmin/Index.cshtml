@@ -1,0 +1,80 @@
+﻿@model List<CarJunk.Models.AutoPiezas>
+@{
+    Layout = "_LayoutAdmin";
+}
+
+<div class="admin-page-header admin-page-header-row">
+    <div>
+        <h1>Autos para Piezas</h1>
+        <p>Gestiona los vehículos destinados a venta por piezas</p>
+    </div>
+    <a asp-controller="PiezasAdmin" asp-action="Crear" class="btn-admin-primary">
+        <i class="fas fa-plus"></i> Agregar Auto
+    </a>
+</div>
+
+<div class="admin-card">
+    @if (!Model.Any())
+    {
+        <p class="admin-empty-text">No hay autos registrados</p>
+    }
+    else
+    {
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>Auto</th>
+                    <th>Año</th>
+                    <th>Piezas</th>
+                    <th>Completitud</th>
+                    <th>Registrado</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var auto in Model)
+                {
+                    <tr>
+                        <td>
+                            <div class="table-auto-name">@auto.Marca @auto.Modelo</div>
+                            <div class="table-auto-sub">@auto.Color</div>
+                        </td>
+                        <td>@auto.Year</td>
+                        <td>@auto.Piezas.Count piezas</td>
+                        <td>
+                            <div class="mini-bar-wrap">
+                                <div class="mini-bar">
+                                    <div class="mini-bar-fill" style="width:@(auto.Completitud)%"></div>
+                                </div>
+                                <span class="mini-bar-pct">@auto.Completitud%</span>
+                            </div>
+                        </td>
+                        <td class="table-fecha">@auto.FechaRegistro.ToString("dd MMM yyyy")</td>
+                        <td>
+                            <div class="table-actions">
+                                <a asp-controller="PiezasAdmin" asp-action="Editar" asp-route-id="@auto.Id"
+                                   class="table-action-btn" title="Editar">
+                                    <i class="fas fa-pen"></i>
+                                </a>
+                                <button class="table-action-btn table-action-danger" title="Eliminar"
+                                        onclick="confirmarEliminar(@auto.Id)">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>
+
+@section Scripts {
+    <script>
+        function confirmarEliminar(id) {
+            if (confirm('¿Eliminar este auto y todas sus piezas? Esta acción no se puede deshacer.')) {
+                window.location.href = '/Admin/PiezasAdmin/Eliminar/' + id;
+            }
+        }
+    </script>
+}

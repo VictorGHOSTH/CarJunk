@@ -1,0 +1,38 @@
+﻿@model List<CarJunk.Models.Desperdicio>
+@{
+    Layout = "_LayoutAdmin";
+}
+
+<div class="admin-page-header">
+    <h1>Desperdicio</h1>
+    <p>Control de chatarra y restos sin valor comercial</p>
+</div>
+
+<div class="admin-card">
+    @if (!Model.Any())
+    {
+        <p class="admin-empty-text">No hay autos en desperdicio</p>
+    }
+    else
+    {
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>Auto</th>
+                    <th>Descripción</th>
+                    <th>Fecha de cierre</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var d in Model)
+                {
+                    <tr>
+                        <td class="table-auto-name">@d.AutoPiezas.Marca @d.AutoPiezas.Modelo @d.AutoPiezas.Year</td>
+                        <td>@(d.Descripcion ?? "—")</td>
+                        <td class="table-fecha">@d.FechaCierre.ToString("dd MMM yyyy")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>

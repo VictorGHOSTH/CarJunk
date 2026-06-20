@@ -1,0 +1,74 @@
+﻿@model List<CarJunk.Models.AutoPiezas>
+@{
+    Layout = "_LayoutAdmin";
+}
+
+<div class="admin-page-header admin-page-header-row">
+    <div>
+        <h1>Inventario de Piezas</h1>
+        <p>Control de stock de todas las piezas registradas</p>
+    </div>
+    <a asp-controller="PiezasAdmin" asp-action="RegistrarPieza" class="btn-admin-primary">
+        <i class="fas fa-plus"></i> Registrar Pieza
+    </a>
+</div>
+
+@if (!Model.Any())
+{
+    <div class="admin-card">
+        <p class="admin-empty-text">No hay piezas registradas</p>
+    </div>
+}
+else
+{
+    @foreach (var auto in Model)
+    {
+        <div class="admin-card" style="margin-bottom:16px">
+            <div class="inventario-auto-header">
+                <div class="table-auto-name">@auto.Marca @auto.Modelo @auto.Year</div>
+                <span class="mini-bar-pct">@auto.Completitud% completo</span>
+            </div>
+            @if (!auto.Piezas.Any())
+            {
+                <p class="admin-empty-text">Sin piezas registradas para este auto</p>
+            }
+            else
+            {
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Pieza</th>
+                            <th>Stock</th>
+                            <th>Precio</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var pieza in auto.Piezas)
+                        {
+                            <tr>
+                                <td>@pieza.Nombre</td>
+                                <td>
+                                    <span class="badge @(pieza.Stock > 0 ? "badge-green" : "badge-gray")">
+                                        ×@pieza.Stock
+                                    </span>
+                                </td>
+                                <td>@(pieza.Precio.HasValue ? $"${pieza.Precio.Value.ToString("N0")}" : "—")</td>
+                                <td>
+                                    <div class="table-actions">
+                                        <button class="table-action-btn" title="Vender">
+                                            <i class="fas fa-cash-register"></i>
+                                        </button>
+                                        <button class="table-action-btn table-action-danger" title="Eliminar">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+    }
+}

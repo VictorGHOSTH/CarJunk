@@ -479,3 +479,176 @@
             left: 0;
             color: var(--amber);
         }
+
+/* PAGE HEADER ROW */
+.admin-page-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.btn-admin-primary {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--black);
+    color: var(--white);
+    padding: 11px 20px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all .2s;
+    white-space: nowrap;
+}
+
+    .btn-admin-primary:hover {
+        background: var(--accent);
+        color: var(--black);
+    }
+
+/* TABLE */
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+    .admin-table thead th {
+        text-align: left;
+        font-size: 11px;
+        color: var(--gray-400);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        padding: 0 12px 12px;
+        border-bottom: 1px solid var(--gray-200);
+    }
+
+    .admin-table tbody td {
+        padding: 14px 12px;
+        border-bottom: 1px solid var(--gray-100);
+        font-size: 14px;
+        vertical-align: middle;
+    }
+
+    .admin-table tbody tr:last-child td {
+        border-bottom: none;
+    }
+
+    .admin-table tbody tr:hover {
+        background: var(--gray-100);
+    }
+
+.table-auto-name {
+    font-weight: 500;
+}
+
+.table-auto-sub {
+    font-size: 12px;
+    color: var(--gray-400);
+    margin-top: 2px;
+}
+
+.table-fecha {
+    font-size: 13px;
+    color: var(--gray-400);
+}
+
+.table-actions {
+    display: flex;
+    gap: 6px;
+}
+
+.table-action-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    border: 1px solid var(--gray-200);
+    background: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--gray-600);
+    font-size: 12px;
+    transition: all .2s;
+    text-decoration: none;
+}
+
+    .table-action-btn:hover {
+        border-color: var(--black);
+        color: var(--black);
+    }
+
+.table-action-danger:hover {
+    border-color: var(--red);
+    color: var(--red);
+}
+
+/* BADGES */
+.badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 500;
+}
+
+.badge-gray {
+    background: var(--gray-200);
+    color: var(--gray-600);
+}
+
+.badge-blue {
+    background: #e3f0ff;
+    color: #185fa5;
+}
+
+.badge-green {
+    background: var(--green-light);
+    color: var(--green);
+}
+
+.badge-dark {
+    background: var(--black);
+    color: var(--white);
+}
+
+/* MINI BAR (completitud en tabla) */
+.mini-bar-wrap {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.mini-bar {
+    width: 80px;
+    height: 6px;
+    background: var(--gray-200);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.mini-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent-dark), var(--accent));
+}
+
+.mini-bar-pct {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--gray-600);
+}
+
+.inventario-auto-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--gray-200);
+}
+
+.admin-form-card {
+    padding: 60px;
+    text-align: center;
+}
