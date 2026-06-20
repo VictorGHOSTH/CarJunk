@@ -1,5 +1,10 @@
 ﻿@{
     Layout = "_LayoutAdmin";
+    ViewData["Breadcrumbs"] = new List<(string, string?, string?)>
+    {
+        ("Inventario de Piezas", "PiezasAdmin", "Inventario"),
+        ("Registrar Pieza", null, null)
+    };
 }
 
 <div class="admin-page-header">

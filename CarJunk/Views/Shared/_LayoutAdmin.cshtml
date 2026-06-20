@@ -62,6 +62,32 @@
         </aside>
 
         <main class="admin-content">
+            @{
+                var breadcrumbs = ViewData["Breadcrumbs"] as List<(string Texto, string? Controller, string? Action)>
+                                   ?? new List<(string, string?, string?)>();
+            }
+            @if (breadcrumbs.Any())
+            {
+                <div class="admin-breadcrumb">
+                    <a asp-controller="Admin" asp-action="Index">
+                        <i class="fas fa-th-large"></i> Dashboard
+                    </a>
+                    @foreach (var crumb in breadcrumbs)
+                    {
+                        <i class="fas fa-chevron-right admin-breadcrumb-sep"></i>
+                        @if (crumb.Controller != null)
+                        {
+                            <a asp-controller="@crumb.Controller" asp-action="@crumb.Action">@crumb.Texto</a>
+                        }
+                        else
+                        {
+                            <span>@crumb.Texto</span>
+                        }
+                    }
+                </div>
+            }
+
+        <main class="admin-content">
             @RenderBody()
         </main>
     </div>

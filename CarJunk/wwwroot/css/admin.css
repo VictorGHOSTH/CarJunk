@@ -1,6 +1,6 @@
 ﻿.admin-body {
     background: var(--gray-100);
-    padding-top: 0;
+    padding-top: 0 !important;
 }
 
 /* TOPBAR */
@@ -651,4 +651,36 @@
 .admin-form-card {
     padding: 60px;
     text-align: center;
+}
+
+/* BREADCRUMB ADMIN */
+.admin-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--gray-400);
+    margin-bottom: 20px;
+}
+
+    .admin-breadcrumb a {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        color: var(--gray-400);
+        text-decoration: none;
+        transition: color .2s;
+    }
+
+        .admin-breadcrumb a:hover {
+            color: var(--black);
+        }
+
+    .admin-breadcrumb span {
+        color: var(--black);
+        font-weight: 500;
+    }
+
+.admin-breadcrumb-sep {
+    font-size: 9px;
 }

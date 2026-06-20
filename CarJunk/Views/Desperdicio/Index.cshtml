@@ -1,6 +1,10 @@
 ﻿@model List<CarJunk.Models.Desperdicio>
 @{
     Layout = "_LayoutAdmin";
+    ViewData["Breadcrumbs"] = new List<(string, string?, string?)>
+    {
+        ("Desperdicio", null, null)
+    };
 }
 
 <div class="admin-page-header">

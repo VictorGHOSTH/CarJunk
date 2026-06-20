@@ -2,6 +2,11 @@
 @using CarJunk.Models.Enums
 @{
     Layout = "_LayoutAdmin";
+    ViewData["Breadcrumbs"] = new List<(string, string?, string?)>
+    {
+        ("Autos Reacondicionados", "Reacondicionados", "Index"),
+        ("Agregar Auto", null, null)
+    };
 }
 
 <div class="admin-page-header admin-page-header-row">

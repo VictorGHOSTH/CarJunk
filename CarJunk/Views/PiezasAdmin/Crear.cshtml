@@ -1,5 +1,10 @@
 ﻿@{
     Layout = "_LayoutAdmin";
+    ViewData["Breadcrumbs"] = new List<(string, string?, string?)>
+    {
+        ("Autos para Piezas", "PiezasAdmin", "Index"),
+        ("Agregar Auto", null, null)
+    };
 }
 
 <div class="admin-page-header">
