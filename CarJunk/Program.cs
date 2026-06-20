@@ -18,6 +18,7 @@ builder.Services.AddScoped<IAutoPiezasService, AutoPiezasService>();
 builder.Services.AddScoped<IPiezaService, PiezaService>();
 builder.Services.AddScoped<IDesperdicioService, DesperdicioService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IDashboardService, DashboardService>();
 
 builder.Services.AddAuthentication(options =>
 {

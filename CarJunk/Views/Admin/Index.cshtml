@@ -1,5 +1,186 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model CarJunk.ViewModels.Admin.DashboardViewModel
 @{
+    ViewData["Title"] = "Dashboard";
+    ViewData["Active"] = "dashboard";
+    Layout = "_LayoutAdmin";
 }
+
+<div class="admin-page-header">
+    <h1>Dashboard</h1>
+    <p>Vista general del sistema de gestión de autos y piezas</p>
+</div>
+
+<!-- STAT CARDS -->
+<div class="stat-cards-grid">
+    <div class="stat-card">
+        <div class="stat-card-top">
+            <div class="stat-icon stat-icon-blue"><i class="fas fa-car-side"></i></div>
+            <i class="fas fa-arrow-trend-up stat-trend"></i>
+        </div>
+        <div class="stat-num">@Model.TotalReacondicionados</div>
+        <div class="stat-label">Total Reacondicionados</div>
+        <div class="stat-sub">@Model.ReacondicionadosListos listos, @Model.ReacondicionadosPreventa en preventa</div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-card-top">
+            <div class="stat-icon stat-icon-green"><i class="fas fa-check-circle"></i></div>
+            <i class="fas fa-arrow-trend-up stat-trend"></i>
+        </div>
+        <div class="stat-num">@Model.AutosVendidos</div>
+        <div class="stat-label">Autos Vendidos</div>
+        <div class="stat-sub">Total de unidades vendidas</div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-card-top">
+            <div class="stat-icon stat-icon-purple"><i class="fas fa-cube"></i></div>
+            <i class="fas fa-arrow-trend-up stat-trend"></i>
+        </div>
+        <div class="stat-num">@Model.PiezasDisponibles</div>
+        <div class="stat-label">Piezas Disponibles</div>
+        <div class="stat-sub">@Model.PiezasVendidas piezas vendidas</div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-card-top">
+            <div class="stat-icon stat-icon-amber"><i class="fas fa-dollar-sign"></i></div>
+            <i class="fas fa-arrow-trend-up stat-trend"></i>
+        </div>
+        <div class="stat-num">$@Model.IngresosTotales.ToString("N0")</div>
+        <div class="stat-label">Ingresos Totales</div>
+        <div class="stat-sub">Ventas acumuladas</div>
+    </div>
+</div>
+
+<!-- GRID PRINCIPAL -->
+<div class="admin-main-grid">
+
+    <div class="admin-col-left">
+
+        <!-- ESTADO DEL INVENTARIO -->
+        <div class="admin-card">
+            <div class="admin-card-title">Estado del Inventario</div>
+            <div class="inventario-estado-grid">
+                <a asp-controller="Reacondicionados" asp-action="Index" asp-route-estado="Listo" class="estado-box">
+                    <div class="estado-icon estado-icon-green"><i class="fas fa-check"></i></div>
+                    <div class="estado-info">
+                        <div class="estado-num-row">
+                            <span class="estado-title">Listos para Venta</span>
+                            <span class="estado-num">@Model.ReacondicionadosListos</span>
+                        </div>
+                        <span class="estado-desc">Autos certificados y disponibles</span>
+                    </div>
+                </a>
+                <a asp-controller="Reacondicionados" asp-action="Index" asp-route-estado="Preventa" class="estado-box">
+                    <div class="estado-icon estado-icon-blue"><i class="fas fa-clock"></i></div>
+                    <div class="estado-info">
+                        <div class="estado-num-row">
+                            <span class="estado-title">En Preventa</span>
+                            <span class="estado-num">@Model.ReacondicionadosPreventa</span>
+                        </div>
+                        <span class="estado-desc">En proceso de reacondicionamiento</span>
+                    </div>
+                </a>
+                <a asp-controller="PiezasAdmin" asp-action="Index" class="estado-box">
+                    <div class="estado-icon estado-icon-purple"><i class="fas fa-cube"></i></div>
+                    <div class="estado-info">
+                        <div class="estado-num-row">
+                            <span class="estado-title">Autos para Piezas</span>
+                            <span class="estado-num">@(Model.AutosPiezasCompletos + Model.AutosPiezasParciales)</span>
+                        </div>
+                        <span class="estado-desc">@Model.AutosPiezasCompletos completos, @Model.AutosPiezasParciales parciales</span>
+                    </div>
+                </a>
+                <a asp-controller="Desperdicio" asp-action="Index" class="estado-box">
+                    <div class="estado-icon estado-icon-gray"><i class="fas fa-trash"></i></div>
+                    <div class="estado-info">
+                        <div class="estado-num-row">
+                            <span class="estado-title">En Desperdicio</span>
+                            <span class="estado-num">@Model.AutosEnDesperdicio</span>
+                        </div>
+                        <span class="estado-desc">Autos sin piezas disponibles</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <!-- ACCIONES RÁPIDAS -->
+        <div class="admin-card">
+            <div class="admin-card-title">Acciones Rápidas</div>
+            <div class="acciones-grid">
+                <a asp-controller="Reacondicionados" asp-action="Crear" class="accion-box">
+                    <div class="accion-icon"><i class="fas fa-car-side"></i></div>
+                    <div>
+                        <div class="accion-title">Agregar Auto</div>
+                        <div class="accion-desc">Reacondicionado</div>
+                    </div>
+                </a>
+                <a asp-controller="PiezasAdmin" asp-action="Crear" class="accion-box">
+                    <div class="accion-icon"><i class="fas fa-cube"></i></div>
+                    <div>
+                        <div class="accion-title">Agregar Auto</div>
+                        <div class="accion-desc">Para Piezas</div>
+                    </div>
+                </a>
+                <a asp-controller="PiezasAdmin" asp-action="RegistrarPieza" class="accion-box">
+                    <div class="accion-icon"><i class="fas fa-cube"></i></div>
+                    <div>
+                        <div class="accion-title">Registrar Pieza</div>
+                        <div class="accion-desc">Nueva pieza</div>
+                    </div>
+                </a>
+                <a asp-controller="PiezasAdmin" asp-action="Inventario" class="accion-box">
+                    <div class="accion-icon"><i class="fas fa-check-circle"></i></div>
+                    <div>
+                        <div class="accion-title">Marcar Venta</div>
+                        <div class="accion-desc">Registrar venta</div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="admin-col-right">
+
+        <!-- ACTIVIDAD RECIENTE -->
+        <div class="admin-card">
+            <div class="admin-card-title">Actividad Reciente</div>
+            @if (!Model.ActividadReciente.Any())
+            {
+                <p class="admin-empty-text">Sin actividad reciente registrada</p>
+            }
+            else
+            {
+                @foreach (var act in Model.ActividadReciente)
+                {
+                    <div class="actividad-item">
+                        <div class="actividad-icon actividad-icon-@act.Tipo">
+                            <i class="fas @(act.Tipo == "venta" ? "fa-check-circle" : act.Tipo == "preventa" ? "fa-clock" : act.Tipo == "pieza" ? "fa-cube" : "fa-car-side")"></i>
+                        </div>
+                        <div>
+                            <div class="actividad-texto">@act.Texto</div>
+                            <div class="actividad-fecha">@act.Fecha.ToString("dd MMM, HH:mm")</div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+
+        <!-- ALERTAS -->
+        @if (Model.Alertas.Any())
+        {
+            <div class="admin-card admin-card-alertas">
+                <div class="admin-card-title alertas-title">
+                    <i class="fas fa-exclamation-triangle"></i> Alertas
+                </div>
+                <ul class="alertas-list">
+                    @foreach (var alerta in Model.Alertas)
+                    {
+                        <li>@alerta.Texto</li>
+                    }
+                </ul>
+            </div>
+        }
+    </div>
+</div>
