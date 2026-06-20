@@ -18,7 +18,12 @@
                 <span>Gestión y Venta de Autos</span>
             </div>
         </a>
-        <div class="nav-links">
+
+        <button class="nav-mobile-toggle" onclick="toggleMobileMenu()">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <div class="nav-links" id="navLinks">
             <a asp-controller="Home" asp-action="Index"
                class="@(ViewData["Active"]?.ToString() == "home" ? "active" : "")">
                 <i class="fas fa-home"></i> Inicio
@@ -79,6 +84,12 @@
             </a>
         </div>
     </footer>
+
+    <script>
+            function toggleMobileMenu() {
+                document.getElementById('navLinks').classList.toggle('mobile-open');
+            }
+    </script>
 
     @RenderSection("Scripts", required: false)
 </body>

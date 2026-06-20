@@ -12,25 +12,31 @@
 <body class="admin-body">
 
     <nav class="admin-topbar">
-        <div class="admin-brand">
-            <i class="fas fa-car-side"></i>
-            <div class="admin-brand-text">
-                <strong>CarJunk Admin</strong>
-                <span>Panel de Administración</span>
+        <div style="display:flex;align-items:center;gap:12px">
+            <button class="admin-sidebar-toggle" onclick="toggleSidebar()">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="admin-brand">
+                <i class="fas fa-car-side"></i>
+                <div class="admin-brand-text">
+                    <strong>CarJunk Admin</strong>
+                    <span>Panel de Administración</span>
+                </div>
             </div>
         </div>
         <div class="admin-topbar-actions">
             <a asp-controller="Home" asp-action="Index" class="admin-link-vista" target="_blank">
-                <i class="fas fa-eye"></i> Vista Cliente
+                <i class="fas fa-eye"></i> <span>Vista Cliente</span>
             </a>
             <a asp-controller="Auth" asp-action="Logout" class="admin-link-salir">
-                <i class="fas fa-sign-out-alt"></i> Salir
+                <i class="fas fa-sign-out-alt"></i> <span>Salir</span>
             </a>
         </div>
     </nav>
 
     <div class="admin-layout">
-        <aside class="admin-sidebar">
+        <div class="admin-sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+        <aside class="admin-sidebar" id="adminSidebar">
             <nav class="admin-nav">
                 <a asp-controller="Admin" asp-action="Index"
                    class="admin-nav-item @(ViewData["Active"]?.ToString() == "dashboard" ? "active" : "")">
@@ -91,6 +97,13 @@
             @RenderBody()
         </main>
     </div>
+
+        <script>
+                function toggleSidebar() {
+                    document.getElementById('adminSidebar').classList.toggle('open');
+                    document.getElementById('sidebarOverlay').classList.toggle('open');
+                }
+        </script>
 
     @RenderSection("Scripts", required: false)
 </body>
