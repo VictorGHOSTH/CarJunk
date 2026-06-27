@@ -161,6 +161,7 @@ body {
     background-size: 60px 60px;
 }
 
+/* ── IMAGEN DE LA PRINCIPAL ── */
 .hero-car-fallback {
     position: absolute;
     right: 0;
@@ -182,27 +183,6 @@ body {
     animation: fadeUp .9s ease both;
 }
 
-.hero-tag {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: rgba(200,169,110,0.12);
-    border: 1px solid rgba(200,169,110,0.3);
-    color: var(--accent);
-    font-family: var(--font-mono);
-    font-size: 11px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    padding: 6px 14px;
-    border-radius: 4px;
-    margin-bottom: 24px;
-}
-
-    .hero-tag::before {
-        content: '●';
-        font-size: 8px;
-        animation: blink 1.4s infinite;
-    }
 
 @keyframes blink {
     0%,100% {
